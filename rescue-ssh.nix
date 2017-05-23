@@ -54,7 +54,7 @@ in
         };
       };
 
-      kernelParams = [ "boot.debug1mounts=1" ipKernelParam ];
+      kernelParams = [ "boot.debug1PreMounts" ipKernelParam ];
     };
   };
 }
