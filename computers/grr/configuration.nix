@@ -14,6 +14,7 @@
     ../../jenkins-node.nix
     ../../i18n.nix
     ../../networks/home.nix
+    ../../rescue-ssh.nix
     ../../standard-env.nix
     ../../standard-nixpath.nix
     ../../standard-services.nix
@@ -42,6 +43,22 @@
   # grub bootloader installed to all devices in the boot raid1 array
   boot =
   {
+    initrd =
+    {
+      rescueSsh =
+      {
+        enable = true;
+        authorizedKey = ''
+ssh-dss AAAAB3NzaC1kc3MAAACBAKE7zYw8MIbB3flIwtd2ze9nm9ASQJAy03FO/6OpfKZXONZOAVL574N2i8XF5BFHIrsCr/60N4BxaIkDfyQ6wSjl35th510s3fKeXUx9g0HEcZURmORD6n9An0VjXPLwepBioUE//P7okx3G24mHUk5XZsdF9st6hN6q9GeMn7aDAAAAFQC83NG9WE1z1++VbggfOmvsmimVMQAAAIAV2gOmt5NFo0MmWSveZk0QMIGfNPHE6dttYaJFajSDYRaZvh++KswR1logb+hKrI9m0NirWUi6rorZ8wM1rmaY5oZ46T4wa0y51tdRP9nt7eqpOI2bfyiF/+Y6QKjUuP8LUspRsuzK8V5cdXEGrBMKFRrFOQl5JtuGCiW3cl3rzQAAAIEAjV9/rTin43BOQNQ3473Wv3ldfXMrn+4g55vKZVpUfYmFSi6aEpTh7fCypoZqEhl2/rlRFwxIZkOlwce45up2s9ldAPVjUZHvBRWgjhXRsbjRjEe12m9BqmlDjy9qS6zZ16KHaNT1enXTwoS+o/NnGH6dqcuL1tWcDTVOBCI0k5I= coconnor@toast
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCyDmeCXPy8SYUJtgd8/7UV5TTHt7HxVwVF/OFFNBBTYvQ8AelZG88GQlY4kNRfltiAzFNbr5pgyGpfwpduWR7XU3AmgJaE/7CtejWzoC+uFss3cxxznM1NUs/OXNyizcwtXEucoKA6Ae3579j2mRuq81eAu3cCIS6NnYvTS5nYhqcFhHQm5ekKUIvhoWD9SV+yQhN9+rhag0bcUaOOMnHryScGIJ0qgXLZT2aeEtzsffQFo7KxLWIcHrd54oXWH2AMmn9Afjo4ZF5DHbmgk2FROEdOJIwTOV5KPdUeAgB+Od/vyGWSrPh55JrKYINh8ch8OuzW8iRzOtWGu55iyN8R coconnor@flop
+        '';
+        interface = config.networking.interfaces.enp9s0;
+      };
+    };
+
+    kernelParams = [ "kvm-intel.nested=1" ];
+    kernelPackages = pkgs.linuxPackages_4_10;
+
     loader.grub =
     {
       enable = true;
@@ -57,9 +74,6 @@
       ];
       zfsSupport = true;
     };
-
-    kernelParams = [ "kvm-intel.nested=1" ];
-    kernelPackages = pkgs.linuxPackages_4_10;
   };
 
   networking =
