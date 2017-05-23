@@ -10,8 +10,7 @@ let
     + "255.255.255.0" # TODO
     + ":"
     + config.networking.hostName
-    + ":"
-    + cfg.interface.name
+    + ":eth1"
     + ":off";
 in
 {

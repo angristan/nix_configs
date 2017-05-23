@@ -107,6 +107,7 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCyDmeCXPy8SYUJtgd8/7UV5TTHt7HxVwVF/OFFNBBT
 
   systemd.services.windows-vm =
   {
+    enable = false;
     description = "starts windows desktop.";
     after = [ "vfio-force-binds.service" ];
     wantedBy = [ "multi-user.target" ];

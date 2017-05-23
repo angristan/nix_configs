@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 PROJECT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )"/.. && pwd )"
 source "${PROJECT_DIR}/bin/.common.sh"
-nixos-rebuild build "$@"
+
+nix="$(nix-build --no-build-output '<nixpkgs/nixos>' -A config.nix.package.out)"
+$nix/bin/nix-build --show-trace '<nixpkgs/nixos>' -A system
