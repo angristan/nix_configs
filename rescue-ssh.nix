@@ -43,14 +43,21 @@ in
   {
     boot =
     {
-      initrd.network =
+      initrd =
       {
-        enable = true;
-        ssh =
+        extraUtilsCommands = ''
+          copy_bin_and_libs ${pkgs.gptfdisk}/bin/gdisk
+        '';
+
+        network =
         {
           enable = true;
-          authorizedKeys = [ cfg.authorizedKey ];
-          hostRSAKey = ../RCs_private/rescue_ssh_rsa;
+          ssh =
+          {
+            enable = true;
+            authorizedKeys = [ cfg.authorizedKey ];
+            hostRSAKey = ../RCs_private/rescue_ssh_rsa;
+          };
         };
       };
 
